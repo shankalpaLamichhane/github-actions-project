@@ -1,11 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"github-actions-project/models"
-	"log"
+	"os"
 
 	"github.com/gin-gonic/gin"
-	"gorm.io/driver/mysql"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
@@ -14,12 +15,16 @@ var dbConfig struct {
 }
 
 func main() {
-	// dns := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local", os.Getenv("DB_USER"), os.Getenv("DB_PASS"),
-	// 	os.Getenv("DB_HOST"), os.Getenv("DB_PORT"), os.Getenv("DB_NAME"))
-	dns := "root:password@tcp(127.0.0.1:3306)/actions?charset=utf8mb4&parseTime=True&loc=Local"
-	db, err := gorm.Open(mysql.Open(dns), &gorm.Config{})
+	fmt.Println(os.Getenv("DB_USER"))
+	fmt.Printf("POSTGRES USER IS %s", os.Getenv("DB_HOST"))
+
+	dns := fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=%s",
+		os.Getenv("POSTGRES_HOST"), os.Getenv("POSTGRES_USER"),
+		os.Getenv("POSTGRES_PASSWORD"), os.Getenv("POSTGRES_DB"), os.Getenv("SSL_MODE"))
+
+	db, err := gorm.Open(postgres.Open(dns), &gorm.Config{})
 	if err != nil {
-		log.Fatal("error connecting to db")
+		panic(err)
 	}
 	router := gin.Default()
 	router.GET("/v1/tasks", func(c *gin.Context) {

@@ -17,7 +17,5 @@ jobs:
   
     steps:
     - uses: actions/checkout@v2
-    - name: Grant execute permission for docker-compose
-      run: chmod +x docker-compose
     - name: Build with Docker compose
       run: docker-compose up

@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github-actions-project/models"
 	"log"
-	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -17,9 +16,6 @@ var dbConfig struct {
 }
 
 func main() {
-
-	fmt.Println("THE SERVER PORT IS ")
-	fmt.Println(os.Getenv("SERVER_PORT"))
 
 	dns := fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=require",
 		os.Getenv("POSTGRES_HOST"), os.Getenv("POSTGRES_USER"),
@@ -43,5 +39,5 @@ func main() {
 			"data":    tasks,
 		})
 	})
-	http.ListenAndServe(":"+os.Getenv("SERVER_PORT"), router)
+	router.Run(":" + os.Getenv("SERVER_PORT"))
 }

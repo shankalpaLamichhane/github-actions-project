@@ -1,2 +1,2 @@
-web: go run main.go
-worker: go run main.go
+web: bin/github-actions-project
+worker: bin/github-actions-project

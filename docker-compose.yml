@@ -30,7 +30,7 @@ services:
     command: --default-authentication-plugin=mysql_native_password
   api:
     container_name:  "test_api"
-    network_mode: host
+    # network_mode: host
     # we want to use the image which is build from our Dockerfile
     build:
       context: .

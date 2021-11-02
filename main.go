@@ -18,6 +18,9 @@ var dbConfig struct {
 
 func main() {
 
+	fmt.Println("THE SERVER PORT IS ")
+	fmt.Println(os.Getenv("SERVER_PORT"))
+
 	dns := fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=require",
 		os.Getenv("POSTGRES_HOST"), os.Getenv("POSTGRES_USER"),
 		os.Getenv("POSTGRES_PASSWORD"), os.Getenv("POSTGRES_DB"))

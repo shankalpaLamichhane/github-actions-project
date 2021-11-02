@@ -1,11 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"github-actions-project/models"
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/lib/pq"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -15,14 +15,16 @@ var dbConfig struct {
 }
 
 func main() {
-	fmt.Println(os.Getenv("DB_USER"))
-	fmt.Printf("POSTGRES USER IS %s", os.Getenv("DB_HOST"))
 
-	dns := fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=%s",
-		os.Getenv("POSTGRES_HOST"), os.Getenv("POSTGRES_USER"),
-		os.Getenv("POSTGRES_PASSWORD"), os.Getenv("POSTGRES_DB"), os.Getenv("SSL_MODE"))
+	// dns := fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=%s",
+	// 	os.Getenv("POSTGRES_HOST"), os.Getenv("POSTGRES_USER"),
+	// 	os.Getenv("POSTGRES_PASSWORD"), os.Getenv("POSTGRES_DB"), os.Getenv("SSL_MODE"))
 
-	db, err := gorm.Open(postgres.Open(dns), &gorm.Config{})
+	dns := os.Getenv("DATABASE_URL")
+	connection, _ := pq.ParseURL(dns)
+	connection += " sslmode=require"
+
+	db, err := gorm.Open(postgres.Open(connection), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}

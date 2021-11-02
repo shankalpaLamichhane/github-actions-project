@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github-actions-project/models"
 	"log"
+	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -39,6 +40,5 @@ func main() {
 			"data":    tasks,
 		})
 	})
-	router.Run(":" + os.Getenv("SERVER_PORT"))
-
+	http.ListenAndServe(":"+os.Getenv("SERVER_PORT"), router)
 }

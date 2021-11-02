@@ -17,7 +17,7 @@ var dbConfig struct {
 
 func main() {
 
-	dns := fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=true",
+	dns := fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=enable",
 		os.Getenv("POSTGRES_HOST"), os.Getenv("POSTGRES_USER"),
 		os.Getenv("POSTGRES_PASSWORD"), os.Getenv("POSTGRES_DB"))
 

@@ -1,8 +1,24 @@
-FROM openjdk:8-jre-alpine
+FROM golang:alpine
+RUN go version
 
+ADD . /go/src/app
+WORKDIR /go/src/app
+
+# Gin will use the PORT env var
+#ENV PORT 5000
 EXPOSE 8080
 
-COPY ./build/libs/my-app-1.0-SNAPSHOT.jar /usr/app/
-WORKDIR /usr/app
+# Install git
+RUN apk add --no-cache git
+# Fetch deps
+COPY go.mod .
+COPY go.sum .
 
-ENTRYPOINT ["java", "-jar", "my-app-1.0-SNAPSHOT.jar"]
+RUN go mod download
+
+
+# Remove git
+# Compile app
+RUN go build -o main .
+# Run app
+CMD ["./main"]

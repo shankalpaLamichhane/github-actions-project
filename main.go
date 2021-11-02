@@ -41,7 +41,7 @@ func main() {
 	})
 	port := os.Getenv("SERVER_PORT")
 	if port == "" {
-		port = "8080"
+		port = "5000"
 	}
 	router.Run(":" + port)
 }

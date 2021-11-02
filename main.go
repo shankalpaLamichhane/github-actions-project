@@ -41,6 +41,6 @@ func main() {
 			"data":    tasks,
 		})
 	})
-	router.Run(":8080")
+	router.Run(":" + os.Getenv("SERVER_PORT"))
 
 }

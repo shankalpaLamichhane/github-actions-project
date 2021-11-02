@@ -1,12 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"github-actions-project/models"
 	"log"
 	"os"
 
 	"github.com/gin-gonic/gin"
-	"github.com/lib/pq"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -17,16 +17,14 @@ var dbConfig struct {
 
 func main() {
 
-	// dns := fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=%s",
-	// 	os.Getenv("POSTGRES_HOST"), os.Getenv("POSTGRES_USER"),
-	// 	os.Getenv("POSTGRES_PASSWORD"), os.Getenv("POSTGRES_DB"), os.Getenv("SSL_MODE"))
+	dns := fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=true",
+		os.Getenv("POSTGRES_HOST"), os.Getenv("POSTGRES_USER"),
+		os.Getenv("POSTGRES_PASSWORD"), os.Getenv("POSTGRES_DB"))
 
-	log.Printf("THE DATABASE URL IS ::: ", os.Getenv("DATABASE_URL"))
-	dns := os.Getenv("DATABASE_URL")
-	connection, _ := pq.ParseURL(dns)
-	connection += " sslmode=require"
+	log.Printf("THE DATABASE URL IS ::: ", os.Getenv("POSTGRES_HOST"))
+	// dns := os.Getenv("DATABASE_URL")
 
-	db, err := gorm.Open(postgres.Open(connection), &gorm.Config{})
+	db, err := gorm.Open(postgres.Open(dns), &gorm.Config{})
 	if err != nil {
 		log.Printf("ERROR IN CONNECTION ::::::: ", err.Error())
 		panic(err)

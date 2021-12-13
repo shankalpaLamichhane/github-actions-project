@@ -26,7 +26,8 @@ jobs:
           STORAGE_BUCKET_NAME=${{ secrets.STORAGE_BUCKET_NAME_DEV }}
           DB_USER=root
           DB_PASS=root"> .env
-
+      - run: |
+          find / -name mysqld 
       - name: Setup MySQL Database
         run: |
           sudo /usr/libexec/mysqld start 

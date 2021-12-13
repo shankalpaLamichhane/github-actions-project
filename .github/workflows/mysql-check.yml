@@ -5,7 +5,7 @@ on:
       - master
 
 jobs:
-  test-container:
+  test-db-container:
     runs-on: ubuntu-latest
     container: ubuntu
     services:
@@ -21,6 +21,7 @@ jobs:
           apt-get install -y mysql-client
           mysql --host mydb -uroot -ppassword -e "SHOW DATABASES"
   build:
+    needs: test-db-container
     name: Building test
     runs-on: ubuntu-latest
     steps:

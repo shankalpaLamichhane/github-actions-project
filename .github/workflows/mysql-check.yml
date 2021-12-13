@@ -5,6 +5,21 @@ on:
       - master
 
 jobs:
+  test-host:
+      runs-on: ubuntu-latest
+      services:
+        mysql:
+          image: mysql:5.7
+          env:
+            MYSQL_ROOT_PASSWORD: password
+          ports:
+          - 32574:3306
+          options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      steps:
+      - name: Verify MySQL connection from host
+        run: |
+          sudo apt-get install -y mysql-client
+          mysql --host 127.0.0.1 --port 32574 -uroot -ppassword -e "SHOW DATABASES"
   build:
     name: Building test
     runs-on: ubuntu-latest
@@ -26,12 +41,12 @@ jobs:
           STORAGE_BUCKET_NAME=${{ secrets.STORAGE_BUCKET_NAME_DEV }}
           DB_USER=root
           DB_PASS=root"> .env
-      - run: |
-          sudo find / -name mysqld 
-      - name: Setup MySQL Database
-        run: |
-          sudo /usr/libexec/mysqld start 
-          mysql -e 'CREATE DATABASE test_db;' -uroot -proot
+#       - run: |
+#           sudo find / -name mysqld 
+#       - name: Setup MySQL Database
+#         run: |
+#           sudo /usr/libexec/mysqld start 
+#           mysql -e 'CREATE DATABASE test_db;' -uroot -proot
 
 
 

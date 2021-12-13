@@ -29,7 +29,7 @@ jobs:
 
       - name: Setup MySQL Database
         run: |
-          sudo /etc/init.d/mysql start
+          sudo /usr/libexec/mysqld start 
           mysql -e 'CREATE DATABASE test_db;' -uroot -proot
 
 

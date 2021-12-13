@@ -1,0 +1,39 @@
+name: my-sql-check
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+      - "*-*"
+
+jobs:
+  build:
+    name: Building stage
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: "1.16.0"
+
+      - name: Create and initialize .env file
+        run: |
+          echo "ENV=local
+          DB_HOST=localhost
+          DB_PORT=3306
+          DB_NAME=test_db
+          STORAGE_BUCKET_NAME=${{ secrets.STORAGE_BUCKET_NAME_DEV }}
+          DB_USER=root
+          DB_PASS=root"> .env
+
+      - name: Setup MySQL Database
+        run: |
+          sudo /etc/init.d/mysql start
+          mysql -e 'CREATE DATABASE test_db;' -uroot -proot
+
+

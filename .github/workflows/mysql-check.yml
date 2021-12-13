@@ -26,10 +26,6 @@ jobs:
           DB_NAME=test_db
           DB_USER=root
           DB_PASS=root"> .env
-          
-
-      - run: |
-         cp support-files/mysql.server /etc/init.d/mysql.server
 
       - name: Setup MySQL Database
         run: |

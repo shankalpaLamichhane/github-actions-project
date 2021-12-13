@@ -3,10 +3,7 @@ on:
   push:
     branches:
       - develop
-  pull_request:
-    branches:
-      - develop
-      - "*-*"
+      - master
 
 jobs:
   build:
@@ -27,7 +24,6 @@ jobs:
           DB_HOST=localhost
           DB_PORT=3306
           DB_NAME=test_db
-          STORAGE_BUCKET_NAME=${{ secrets.STORAGE_BUCKET_NAME_DEV }}
           DB_USER=root
           DB_PASS=root"> .env
 

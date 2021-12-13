@@ -27,7 +27,7 @@ jobs:
           DB_USER=root
           DB_PASS=root"> .env
       - run: |
-          find / -name mysqld 
+          sudo find / -name mysqld 
       - name: Setup MySQL Database
         run: |
           sudo /usr/libexec/mysqld start 

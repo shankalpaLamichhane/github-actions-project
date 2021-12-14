@@ -19,6 +19,7 @@ jobs:
           - 33306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
   build:
+    needs:  setup-mysql
     env:
       DB_DATABASE: test_db
       DB_USER: root

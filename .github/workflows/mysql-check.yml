@@ -5,6 +5,19 @@ on:
       - master
 
 jobs:
+  setup-mysql: 
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_DATABASE: test_db
+          MYSQL_USER: user
+          MYSQL_PASSWORD: password
+          MYSQL_ROOT_PASSWORD: rootpassword
+        ports:
+          - 33306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
   build:
     env:
       DB_DATABASE: test_db
@@ -30,12 +43,7 @@ jobs:
           STORAGE_BUCKET_NAME=${{ secrets.STORAGE_BUCKET_NAME_DEV }}
           DB_USER=root
           DB_PASS=root"> .env\
-          
-       
-      - name: Set up MySQL
-        run: |
-          sudo /usr/bin/mysqld start
-          mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
+  
 
           
 #       - run: |

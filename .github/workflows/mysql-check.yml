@@ -5,23 +5,11 @@ on:
       - master
 
 jobs:
-  test-db-container:
-    runs-on: ubuntu-latest
-    container: ubuntu
-    services:
-      mydb:
-        image: mysql:5.7
-        env:
-          MYSQL_ROOT_PASSWORD: password
-          options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
-    steps:
-    - name: Verify MySQL connection from container 
-      run: |
-          apt-get update
-          apt-get install -y mysql-client
-          mysql --host mydb -uroot -ppassword -e "SHOW DATABASES"
   build:
-    needs: test-db-container
+    env:
+      DB_DATABASE: test_db
+      DB_USER: root
+      DB_PASSWORD: root
     name: Building test
     runs-on: ubuntu-latest
     steps:
@@ -41,7 +29,14 @@ jobs:
           DB_NAME=test_db
           STORAGE_BUCKET_NAME=${{ secrets.STORAGE_BUCKET_NAME_DEV }}
           DB_USER=root
-          DB_PASS=root"> .env
+          DB_PASS=root"> .env\
+       
+      - name: Set up MySQL
+        run: |
+          sudo /etc/init.d/mysql start
+          mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
+
+          
 #       - run: |
 #           sudo find / -name mysqld 
 #       - name: Setup MySQL Database

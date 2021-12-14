@@ -31,13 +31,10 @@ jobs:
           DB_USER=root
           DB_PASS=root"> .env\
           
-      - name: Enable mysql
-        run : |
-          sudo systemctl start mysql
        
       - name: Set up MySQL
         run: |
-          sudo /etc/init.d/mysql start
+          sudo /usr/bin/mysql start
           mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
 
           

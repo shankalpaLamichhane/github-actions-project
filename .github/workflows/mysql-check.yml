@@ -30,6 +30,10 @@ jobs:
           STORAGE_BUCKET_NAME=${{ secrets.STORAGE_BUCKET_NAME_DEV }}
           DB_USER=root
           DB_PASS=root"> .env\
+          
+      - name: Enable mysql
+        run : |
+          sudo systemctl start mysql
        
       - name: Set up MySQL
         run: |

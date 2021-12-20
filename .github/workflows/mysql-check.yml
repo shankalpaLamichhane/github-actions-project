@@ -52,7 +52,7 @@ jobs:
         run: |
           echo "DOCKER_USER = \"${{secrets.DOCKER_USERNAME}}\"
           \nDOCKER_USER = \"${{secrets.DOCKER_PASSWORD}}\"
-          "
+            "
   
 
           

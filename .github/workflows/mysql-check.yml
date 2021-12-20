@@ -48,6 +48,11 @@ jobs:
           STORAGE_BUCKET_NAME=${{ secrets.STORAGE_BUCKET_NAME_DEV }}
           DB_USER=root
           DB_PASS=root"> .env\
+      - name: Check docker username and password
+        run: |
+          echo "DOCKER_USER = \"${{secrets.DOCKER_USERNAME}}\"
+          \nDOCKER_USER = \"${{secrets.DOCKER_PASSWORD}}\"
+          "
   
 
           
